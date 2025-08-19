@@ -1,8 +1,0 @@
-{
-    "python.analysis.extraPaths": [
-        "./infra",
-        "./service",
-        "./domain/student_",
-        "./domain"
-    ]
-}
