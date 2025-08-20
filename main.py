@@ -13,7 +13,11 @@ def main():
     # 2. 各レコードからプロンプトを生成してコメントを作る
     for record in records:
         prompt = build_prompt(record)
-        comment = generate_comment(prompt)
+        try:
+            comment = generate_comment(prompt)
+        except Exception as e:
+            comment = "※コメント生成に失敗しました"
+            print(f"Error: {e}")
         record.comment = comment  # Recordにプロパティ追加してある前提
 
     # 3. 出力ファイルに書き出す
