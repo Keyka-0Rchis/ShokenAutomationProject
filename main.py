@@ -1,5 +1,5 @@
 from infra.excel_io import read_records, write_comments
-from service.prompt_builder import build_prompt
+from util.prompt_builder import build_prompt
 from service.comment_service import generate_comment
 from domain.student_record import Record
 
