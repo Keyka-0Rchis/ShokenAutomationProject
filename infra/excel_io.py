@@ -5,17 +5,25 @@ from domain.student_record import Record
 
 
 def read_records(file_path: str) -> list[Record]:
-    wb = load_workbook(filename=file_path)
-    # inputシートを指定。
-    ws = wb["input"]
-
+    try:
+        wb = load_workbook(filename=file_path)
+        # inputシートを指定。
+        ws = wb["input"]
+    except FileNotFoundError:
+        print("ファイルが見つかりません")
+        return[]
+    except KeyError:
+        print("inputシートが見つかりません")
+        return[]
+    
     records = []
     for row in ws.iter_rows(min_row=2):  # ヘッダーを飛ばす
         grade = row[0].value
         student_id = row[2].value
         good_points = [cell.value for cell in row[3:7] if cell.value]
         if grade and student_id and good_points:
-            records.append(Record(grade=grade, student_id=student_id, good_points=good_points,comment=None))
+            # コメントはデフォでNoneが入る。
+            records.append(Record(grade=grade, student_id=student_id, good_points=good_points))
 
     return records
 
