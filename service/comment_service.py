@@ -1,19 +1,21 @@
 from dotenv import load_dotenv
 from openai import OpenAI,OpenAIError
+from config import client, resolve_model, settings
 import os
 
 load_dotenv()
 client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
-def generate_comment(prompt: str) -> str:
+def generate_comment(prompt: str, mode:str = "smart") -> str:
+    model = resolve_model(mode)
     try:
         response = client.chat.completions.create(
-            model="gpt-4o",  # または "gpt-3.5-turbo"
+            model = model,
             messages=[
                 {"role": "system", "content": "あなたは中学校の教師として、生徒の個性を引き出す所見文を作成します。"},
                 {"role": "user", "content": prompt}
             ],
-            temperature=0.7,
+            temperature=settings.temperature,
         )
         return response.choices[0].message.content.strip()
     except Exception as e:
