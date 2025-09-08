@@ -7,10 +7,10 @@ load_dotenv()
 client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
 def generate_comment(prompt: str, mode:str = "smart") -> str:
-    model = resolve_model(mode)
+    model_name = resolve_model(mode)
     try:
         response = client.chat.completions.create(
-            model = model,
+            model = model_name,
             messages=[
                 {"role": "system", "content": "あなたは中学校の教師として、生徒の個性を引き出す所見文を作成します。"},
                 {"role": "user", "content": prompt}

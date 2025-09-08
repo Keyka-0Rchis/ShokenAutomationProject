@@ -1,3 +1,7 @@
+# 設定ファイル
 .env
+# キャッシュ
 __pycache__/
 *.pyc
+# テストのキャッシュ
+.pytest_cache/
