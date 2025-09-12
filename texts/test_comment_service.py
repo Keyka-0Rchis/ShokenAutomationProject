@@ -41,6 +41,7 @@ def test_generate_comment_returns_string(monkeypatch):
     assert "所見" in result         # resultに"所見"がふくまれているかチェック 
 
 def test_generate_comment_failure(monkeypatch):
+    # createが発動した瞬間例外処理に入るため、Responseすら不要
     class DummyClient:
         def chat(self): return self
         def completions(self): return self
