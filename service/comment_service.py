@@ -1,10 +1,10 @@
 from dotenv import load_dotenv
-from openai import OpenAI,OpenAIError
+# from openai import OpenAI,OpenAIError
 from config import client, resolve_model, settings
 import os
 
 load_dotenv()
-client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
+# client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
 def generate_comment(prompt: str, mode:str = "smart") -> str:
     model_name = resolve_model(mode)
@@ -19,5 +19,6 @@ def generate_comment(prompt: str, mode:str = "smart") -> str:
         )
         return response.choices[0].message.content.strip()
     except Exception as e:
-        print(f"コメントの生成に失敗しました:{e}")
+        print(f"[DEBUG ERROR] {e!r}")
+        print(f"コメントの生成に失敗しました。:{e}")
         return "コメントの生成に失敗しました。"
