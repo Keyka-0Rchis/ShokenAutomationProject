@@ -21,7 +21,6 @@ shoken-automation-project/
 │ └── prompt_builder.py # プロンプト構築
 ├── infra/
 │ └── excel_io.py # Excel 読み書き処理
-├── config.py # 設定ファイル
 ├── tests/
 │ └──integration/
 │   └──test_integration_flow.py # 結合テストです。ダミーのExcelファイルを作成し、読み取り、書き出しを行います。APIでのコメント生成はモックです。
@@ -38,8 +37,8 @@ shoken-automation-project/
 ## 必要環境
 
 - Python 3.10 以上
-- openai >=1.0.0
-- openpyxl
+- pip（または uv/poetry 等）
+- インターネット接続（OpenAI API 利用時）
 
 ## Excel フォーマット
 
@@ -54,4 +53,29 @@ shoken-automation-project/
 ## 環境変数の設定
 
 プロジェクトルートに `.env` を作成し、以下を設定してください。
+
+OPENAI_API_KEY=sk-xxxxx
+または、OPENAI_BASE_URL=https://api.openai.com/v1（自前のプロキシなどを使う場合）
+
+モデル/温度の上書き
+OPENAI_MODEL=gpt-4o
+（省略時プリセット: smart=gpt-4o, fast=gpt-4o-mini, vision=gpt-4o-mini）
+OPENAI_TEMPERATURE=0.7
 `.env.example` を参考にしてください。
+
+## 使い方
+コンソールにて
+python main.py
+1.「ファイルを選択」から Excel を選ぶ（ブック名は任意、シート名は input）。
+2.「実行」を押すと生成が始まり、進捗バーが増えていきます。
+3.完了後、所見が Excel に書き戻されます（既定は G 列）。
+
+## テストについて
+すべてのテスト
+pytest -q
+
+カバレッジ（任意）
+pip install coverage
+coverage run -m pytest
+coverage report -m
+
