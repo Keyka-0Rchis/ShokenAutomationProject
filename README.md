@@ -9,7 +9,10 @@ Excel に記載された生徒情報（学年、出席番号、よかったと�
 ## フォルダ構成
 
 shoken-automation-project/
-├── main.py # 実行ファイル
+├── main.py # 実行ファイル。uiの起動などを定義しています。
+├── config.py # 設定ファイルです。ここでenvを読み取ったりします。
+├── controller/
+│ └── generate_controller.py # 所見生成までのロジックの流れを定義しています。
 ├── domain/
 │ └── student_record.py # Record ドメインモデル
 ├── service/
@@ -19,8 +22,14 @@ shoken-automation-project/
 ├── infra/
 │ └── excel_io.py # Excel 読み書き処理
 ├── config.py # 設定ファイル
-├── test/
-│ └──
+├── tests/
+│ └──integration/
+│   └──test_integration_flow.py # 結合テストです。ダミーのExcelファイルを作成し、読み取り、書き出しを行います。APIでのコメント生成はモックです。
+│ └──unit/
+│   └──test_comment_service.py # 所見生成の戻り値の方などをテストする単体テストです
+│   └──test_prompt_builder.py # 所見生成のためのプロンプト作成の単体テストです
+├── ui/
+│ └── main_window.py # 起動時の画面をTkinterで作成しています。
 ├── .env # 環境変数の設定（gitignore ではじいています。）
 ├── .env.example # .env のサンプルです。
 ├── .gitignore
@@ -46,19 +55,3 @@ shoken-automation-project/
 
 プロジェクトルートに `.env` を作成し、以下を設定してください。
 `.env.example` を参考にしてください。
-
-## その他
-
-- API 使用料にはご注意を
-
-## 作者
-
-わたし
-
-## アイデア
-
-内田大先生
-
-## 協力
-
-ChatGPT
