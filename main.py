@@ -1,27 +1,26 @@
-from infra.excel_io import read_records, write_comments
-from util.prompt_builder import build_prompt
-from service.comment_service import generate_comment
-from domain.student_record import Record
+import tkinter
+from ui.main_window import MainWindow
+from controller.generate_controller import generate_control
 
 def main():
-    input_file = "students.xlsx"
-    output_file = "students.xlsx"
+    # ウィンドウを作成
+    root = tkinter.Tk()
+    # ウィンドウタイトルの設定
+    root.title("所見自動生成ー所見綴ー")
+    # ウィンドウサイズの設定。今回は動的に、、、。("1080x920")とかで設定できる
+    root.geometry("600x500")
 
-    # 1. Excelから生徒の記録を読み込む
-    records = read_records(input_file)
+    # 若干DIっぽく
+    ui = MainWindow(root,run_generate=generate_control)
+    ui.outer_init()
+    ui.row1_outer_init()
+    ui.file_select_label_init()
+    ui.file_select_button_init()
+    ui.selected_path_label_init()
+    ui.submit_button_init()
 
-    # 2. 各レコードからプロンプトを生成してコメントを作る
-    for record in records:
-        prompt = build_prompt(record)
-        try:
-            comment = generate_comment(prompt)
-        except Exception as e:
-            comment = "※コメント生成に失敗しました"
-            print(f"Error: {e}")
-        record.comment = comment  # Recordにプロパティ追加してある前提
-
-    # 3. 出力ファイルに書き出す
-    write_comments(records, output_file)
+    # 最後にこれを書く。これはウィンドウの永続化。イベント発生まで表示させるための一文。
+    root.mainloop()
 
 if __name__ == "__main__":
     main()
