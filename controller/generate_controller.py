@@ -7,6 +7,9 @@ def generate_control(filename):
     input_file = filename
     output_file = filename
 
+    success_count = 0
+    failed_count = 0
+
     # 1. Excelから生徒の記録を読み込む
     records = read_records(input_file)
 
@@ -15,10 +18,14 @@ def generate_control(filename):
         prompt = build_prompt(record)
         try:
             comment = generate_comment(prompt)
+            record.comment = comment
+            success_count += 1
         except Exception as e:
             comment = "※コメント生成に失敗しました"
             print(f"Error: {e}")
-        record.comment = comment  # Recordにプロパティ追加してある前提
+            failed_count += 1
+        
 
     # 3. 出力ファイルに書き出す
     write_comments(records, output_file)
+    
