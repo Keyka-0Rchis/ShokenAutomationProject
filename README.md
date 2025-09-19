@@ -43,7 +43,7 @@ shoken-automation-project/
 
 ## Excel フォーマット
 
-- ブック名：students.xlsx
+- ブック名：任意です
 - シート名：input #今後変えます
 - A 列：学年（一文目が変化します）
 - B 列：クラス(システム的には使いません)
