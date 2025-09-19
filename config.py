@@ -23,6 +23,8 @@ class Settings:
 
 settings = Settings()
 
+print("[DEBUG] API_KEY:", settings.api_key[:8] + "..." if settings.api_key else None)
+
 if not settings.api_key:
     raise RuntimeError("OPENAI_API_KEY が未設定")
 
@@ -35,3 +37,7 @@ def resolve_model(key: str | None = None) -> str:
     if not key:
         return settings.model_default
     return MODEL_PRESETS.get(key, key)  # プリセット名なら置換、そうでなければそのまま
+
+print("[DEBUG] api_key:", settings.api_key[:10] + "...")
+print("[DEBUG] base_url:", settings.base_url)
+
