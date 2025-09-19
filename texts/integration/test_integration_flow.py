@@ -10,6 +10,7 @@ from openpyxl import Workbook
 # ダミーExcelは永続化不要。一時ファイルで十分。
 import tempfile
 
+# 統合テスト。今回はmainで実行する関数をテストする感じ。
 def test_integration_flow(monkeypatch):
     # ワークブック作成
     wb = Workbook()
