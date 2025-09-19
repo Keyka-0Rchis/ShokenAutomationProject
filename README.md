@@ -7,7 +7,7 @@
 Excel に記載された生徒情報（学年、出席番号、よかったところ等）を元に、OpenAI の API を使って個別コメントを自動生成します。
 
 ## フォルダ構成
-
+```
 shoken-automation-project/
 ├── main.py # 実行ファイル。uiの起動などを定義しています。
 ├── config.py # 設定ファイルです。ここでenvを読み取ったりします。
@@ -33,7 +33,7 @@ shoken-automation-project/
 ├── .env.example # .env のサンプルです。
 ├── .gitignore
 └── README.md # このファイル
-
+```
 ## 必要環境
 
 - Python 3.10 以上
