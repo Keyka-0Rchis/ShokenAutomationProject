@@ -16,6 +16,7 @@ def main():
     ui.row1_outer_init()
     ui.file_select_label_init()
     ui.file_select_button_init()
+    ui.progress_init()
     ui.result_label_init()
     ui.selected_path_label_init()
     ui.submit_button_init()

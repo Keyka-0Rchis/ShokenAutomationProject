@@ -2,10 +2,13 @@
 
 import sys
 import tkinter
-from tkinter import filedialog,Label
+from tkinter import filedialog,Label,ttk
+import time
+from tkinter import messagebox
 
 class MainWindow:
     def __init__(self, root, run_generate):
+        self.root = root
         # フィールド変数。ui部品は各メソッドで編集したいのでフィールド変数で宣言したほうがいい。
         self.filepath = None
         self.outer = tkinter.Frame(root, padx=30, pady=20)
@@ -16,7 +19,8 @@ class MainWindow:
         self.file_select_button = tkinter.Button(self.row1_outer, text="ファイルを選択", command=self.select_file)
         # ラベル、ボタンの下に、ファイルが選択されたらパスが出てくるラベルを用意
         self.selected_path_label = tkinter.Label(self.outer, text="")
-
+        # 進捗などのステータス表示
+        self.progress = ttk.Progressbar(self.outer, length=200, mode="determinate")
         self.result_label = tkinter.Label(self.outer, text="")
 
         self.submit_button = tkinter.Button(self.outer, text="生成開始", command=self.run)
@@ -42,6 +46,9 @@ class MainWindow:
     def selected_path_label_init(self):
         self.selected_path_label.grid(row=1, column=0, pady=5, columnspan=2)
 
+    def progress_init(self):
+        self.progress.grid(row=3,column=0, padx=10, pady=10)
+
     def select_file(self):
         # filedialogでファイル選択画面へ。なんて便利なんだろう。
         self.filepath = filedialog.askopenfilename(
@@ -58,11 +65,29 @@ class MainWindow:
         self.submit_button.grid(row=5,column=0)
 
     def run(self):
-        success, fail = self.run_generate(self.filepath)
-        if success>0 or fail>0: 
-            self.result_label.config(text=f"完了しました→成功：{success}件　失敗：{fail}件")
-        else:
-            self.result_label.config(text=f"生成されませんでした")
+        if not self.filepath:
+            messagebox.showwarning("警告", "Excelファイルを選択してください。")
+            return
+        self.progress["value"] = 0
+        self.result_label.config(text="処理開始…")
+        success, failed = self.run_generate(self.filepath, on_progress=self.on_progress)
+        self.result_label.config(
+            text=f"完了しました → 成功:{success}件 / 失敗:{failed}件"
+        )
+
+    def on_progress(self, done, total, success, failed, record):
+        if done == 0:
+            return  # 初期呼び出しはスキップ
+        # 初期化（最初の1回）
+        if self.progress["maximum"] != total:
+            self.progress["maximum"] = total
+
+        self.progress["value"] = done
+        self.result_label.config(
+            text=f"{done}/{total} 処理中… 成功:{success} 失敗:{failed}"
+        )
+        # メインスレッドで描画を即時反映
+        self.root.update_idletasks()
 
 # # ウィンドウを作成
 # root = tkinter.Tk()
