@@ -17,6 +17,8 @@ class MainWindow:
         # ラベル、ボタンの下に、ファイルが選択されたらパスが出てくるラベルを用意
         self.selected_path_label = tkinter.Label(self.outer, text="")
 
+        self.result_label = tkinter.Label(self.outer, text="")
+
         self.submit_button = tkinter.Button(self.outer, text="生成開始", command=self.run)
         self.run_generate = run_generate
 
@@ -49,11 +51,18 @@ class MainWindow:
         if self.filepath:
             self.selected_path_label.config(text=f"選択されたファイル:" + self.filepath)
 
+    def result_label_init(self):
+        self.result_label.grid(row=2, column=0)
+
     def submit_button_init(self):
         self.submit_button.grid(row=5,column=0)
 
     def run(self):
-        self.run_generate(self.filepath)
+        success, fail = self.run_generate(self.filepath)
+        if success>0 or fail>0: 
+            self.result_label.config(text=f"完了しました→成功：{success}件　失敗：{fail}件")
+        else:
+            self.result_label.config(text=f"生成されませんでした")
 
 # # ウィンドウを作成
 # root = tkinter.Tk()

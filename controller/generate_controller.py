@@ -20,12 +20,16 @@ def generate_control(filename):
             comment = generate_comment(prompt)
             record.comment = comment
             success_count += 1
+            print("成功")
         except Exception as e:
             comment = "※コメント生成に失敗しました"
             print(f"Error: {e}")
             failed_count += 1
+            print("失敗")
         
 
     # 3. 出力ファイルに書き出す
     write_comments(records, output_file)
-    
+
+    # 4. 成功した件数と失敗した件数をUIに報告する
+    return (success_count,failed_count)
