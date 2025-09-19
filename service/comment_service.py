@@ -1,9 +1,8 @@
-from dotenv import load_dotenv
+# from dotenv import load_dotenv
 # from openai import OpenAI,OpenAIError
 from config import client, resolve_model, settings
 import os
 
-load_dotenv()
 # client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
 def generate_comment(prompt: str, mode:str = "smart") -> str:
